@@ -1,0 +1,38 @@
+# Command lines done in November 2021 with ms
+# Have yet to be corrected according to the comments made
+
+# General parameters
+#θ = 4Neμ(length-of-region) with μ rate of recombination per site
+#ρ = 4Ner(length-of-region - 1) with r rate of recombination per site
+#Ne = 10000
+#μ = 1,2.10^(-8)
+#region length = 50M bp
+
+
+# Different scenarios
+#constant Ne
+ms 8 1000 -t 2400 -r 2400 49999999 -p 8 > hardy_weinberg_output_V2
+
+#big bottleneck
+#G is growth factor α = -(1/CoalescentTime) x log(PopAfterBN/RecoveredPop) = -(1/0.025) x log(10000/50) = 92.04
+ms 8 1000 -t 2400 -r 2400 49999999 -eN 0.03 0.005 -eG 0.025 92.04 -p 8 > big_bottleneck_output
+
+#big bottleneck without recovery 
+ms 8 1000 -t 2400 -r 2400 49999999 -eN 0.03 0.005 -p 8 > big_bottleneck_no_recovery_output
+
+#small bottleneck
+#G = -(1/0.025) x log(10000/5000) = 12.04
+ms 8 1000 -t 2400 -r 2400 49999999 -eN 0.03 0.5 -eG 0.025 12.04 -p 8 > small_bottleneck_output
+
+#small bottleneck without recovery
+ms 8 1000 -t 2400 -r 2400 49999999 -eN 0.03 0.5 -p 8 > small_bottleneck_no_recovery_output
+
+#big bottleneck + expansion
+#G = -(1/0.025) x log(50/20000) = 104.08
+ms 8 1000 -t 2400 -r 2400 49999999 -eN 0.03 0.005 -eG 0.025 104.08  -p 8 > big_bottleneck_expansion_output
+
+#big bottleneck + admixture + recovery
+ms 8 1000 -t 2400 -r 2400 49999999 -I 2 7 1 -n 1 1 -n 2 0.05 -m 2 1 1 -em 0.07 2 1 0 -en 0.03 1 0.005 -eg 0.025 1 92.04 -ej 0.02 2 1 -p 8 > big_bottleneck_admix_output
+
+#big bottleneck + admixture (no recovery)
+ms 8 1000 -t 2400 -r 2400 49999999 -I 2 7 1 -n 1 1 -n 2 0.05 -m 2 1 1 -em 0.07 2 1 0 -en 0.03 1 0.005 -ej 0.02 2 1 -p 8 > big_bottleneck_admix_no_recovery_output
