@@ -4,6 +4,7 @@ library( ggplot2 )
 
 library( reshape2 )
 
+## Folder names of different scenarios
 scenario_names <- c("big_bottle",
                     "big_bottle_admix",
                     "big_bottle_admix_no_recovery",
@@ -18,10 +19,12 @@ results <- list(grandparent_child = c(),
                 sibling = c(),
                 parent_child = c(),
                 uncle_child = c(),
-                cousins = c() )
+                cousins = c()
+                )
 
 all_data <- list()
 
+## Different Groups
 gran <- c(6,7,12,13)
 sib <- 20
 parent <- c(3,5,9,11,17,23,25,27)
@@ -29,6 +32,7 @@ uncle <- c(24,26)
 cous <- 28
 
 for( scenario in scenario_names ){
+    ## Collects all summary statistics from ngs_relate and categorizes by the true relationship
     input_folder_name <- paste0( c('~/neomatrix/team3/ngs_relate_outputs', scenario), collapse = '/' )
     results <- list(grandparent_child = c(),
                 sibling = c(),
@@ -48,17 +52,9 @@ for( scenario in scenario_names ){
     all_data[[scenario]]  <- results
 }
 
-all_data[[1]]
-
+## Starts plotting
 to_plot <- melt( all_data )
-
 colnames(to_plot) <- c( 'theta', 'relationship', 'scenario' )
-
-summary( to_plot )
-
-
-
-head(to_plot)
 
 plot <- ggplot( data = to_plot, mapping = aes( y = theta, x = scenario ) )
 plot <- plot + geom_boxplot()

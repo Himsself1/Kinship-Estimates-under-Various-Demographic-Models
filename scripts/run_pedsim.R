@@ -1,7 +1,7 @@
 install.packages('vcfR')
 library( 'vcfR' )
 
-test.data <- read.vcfR( file = "vcfs/big_bottle/big_bottleneck_output_249.vcf" )
+## Same logic as run_ngsrelate.R script
 
 find_CM <- function( vcf_data, recomb_rate ){
     
@@ -21,11 +21,6 @@ make_gen_map <- function( vcf_data, recomb_rate ){
     write.table( gen_map, '~/neomatrix/team3/temp_gen_map.txt', quote = FALSE, sep = '\t', row.names = FALSE, col.names = FALSE )
 }
 
-?noquote
-
-
-"ped-sim -d ~/neomatrix/team3/ped6.def --pois -m temp_map "
-
 scenario_names <- c("big_bottle",
                     "big_bottle_admix",
                     "big_bottle_admix_no_recovery",
@@ -35,8 +30,6 @@ scenario_names <- c("big_bottle",
                     "small_bottle",
                     "small_bottle_no_recovery"
                     )
-
-scenario <- scenario_names[1]
 
 for( scenario in scenario_names ){    
     input_folder_name <- paste0( c('~/neomatrix/team3/vcfs', scenario), collapse = '/' )

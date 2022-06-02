@@ -12,6 +12,7 @@ find_CM <- function( vcf_data, recomb_rate ){
 }
 
 make_gen_map <- function( vcf_data, recomb_rate ){
+    ## Turns nucleotide distance into CentiMorgans according to recombination rate
     centimorgans <- find_CM( vcf_data, recomb_rate )
         gen_map <- data.frame(
             chr = noquote(vcf_data@fix[,1]),
@@ -20,11 +21,6 @@ make_gen_map <- function( vcf_data, recomb_rate ){
         )
     write.table( gen_map, '~/neomatrix/team3/temp_gen_map.txt', quote = FALSE, sep = '\t', row.names = FALSE, col.names = FALSE )
 }
-
-?noquote
-
-
-"ped-sim -d ~/neomatrix/team3/ped6.def --pois -m temp_map "
 
 scenario_names <- c(## "big_bottle",
                     ## "big_bottle_admix",
@@ -36,9 +32,9 @@ scenario_names <- c(## "big_bottle",
                     "small_bottle_no_recovery"
                     )
 
-scenario <- scenario_names[1]
-
-for( scenario in scenario_names ){    
+for( scenario in scenario_names ){
+    ## Main loop that runs NGS Relate for all scenarios.
+    ## It reads input files and handles output
     input_folder_name <- paste0( c('~/neomatrix/team3/ped_sim_outputs', scenario), collapse = '/' )
     output_folder_name <- paste0( c( '~/neomatrix/team3/ngs_relate_outputs', scenario), collapse = '/' )
     dir.create( output_folder_name, recursive = TRUE )
